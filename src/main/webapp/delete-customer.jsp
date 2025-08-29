@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customers - Pahana Edu Bookshop</title>
+    <title>Delete Customer - Pahana Edu Bookshop</title>
     <style>
         /* Your existing CSS styles */
         * {
@@ -23,7 +23,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -141,11 +141,6 @@
             background-color: #c0392b;
         }
 
-        .btn-small {
-            padding: 5px 10px;
-            font-size: 0.8rem;
-        }
-
         .alert {
             padding: 15px;
             margin: 20px 0;
@@ -165,44 +160,30 @@
             border-color: #c3e6cb;
         }
 
-        .customer-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .customer-table th,
-        .customer-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .customer-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .customer-table tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .action-cells {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .no-customers {
-            text-align: center;
-            padding: 40px;
-            color: #7f8c8d;
-            background-color: white;
+        .confirmation-box {
+            background: white;
+            padding: 25px;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .confirmation-box h3 {
+            margin-bottom: 20px;
+            color: #e74c3c;
+        }
+
+        .customer-details {
+            text-align: left;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .customer-details p {
+            margin: 8px 0;
         }
 
         footer {
@@ -211,32 +192,6 @@
             color: #7f8c8d;
             margin-top: 40px;
             border-top: 1px solid #eee;
-        }
-
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .customer-table {
-                display: block;
-                overflow-x: auto;
-            }
-
-            .action-cells {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -266,9 +221,9 @@
 
 <div class="container">
     <div class="page-header">
-        <h1 class="page-title">Customer Management</h1>
+        <h1 class="page-title">Delete Customer</h1>
         <div class="action-bar">
-            <a href="add-customer.jsp" class="btn btn-primary">Add New Customer</a>
+            <a href="customer" class="btn btn-secondary">Back to Customers</a>
         </div>
     </div>
 
@@ -276,53 +231,25 @@
         <div class="alert alert-error">${errorMessage}</div>
     </c:if>
 
-    <c:if test="${not empty successMessage}">
-        <div class="alert alert-success">${successMessage}</div>
-    </c:if>
+    <div class="confirmation-box">
+        <h3>Confirm Customer Deletion</h3>
+        <p>Are you sure you want to delete the following customer? This action cannot be undone.</p>
 
-    <c:choose>
-        <c:when test="${not empty customers}">
-            <table class="customer-table">
-                <thead>
-                <tr>
-                    <th>Account #</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="customer" items="${customers}">
-                    <tr>
-                        <td>${customer.accountNumber}</td>
-                        <td>${customer.customerName}</td>
-                        <td>${customer.phoneNumber}</td>
-                        <td>${customer.email}</td>
-                        <td>
-                            <div class="action-cells">
-                                <a href="customer?action=view&accountNumber=${customer.accountNumber}"
-                                   class="btn btn-primary btn-small">View</a>
-                                <a href="edit-customer.jsp?customerId=${customer.customerId}"
-                                   class="btn btn-secondary btn-small">Edit</a>
-                                <c:if test="${user.admin}">
-                                    <a href="delete-customer.jsp?customerId=${customer.customerId}"
-                                       class="btn btn-danger btn-small">Delete</a>
-                                </c:if>
-                            </div>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </c:when>
-        <c:otherwise>
-            <div class="no-customers">
-                <h3>No customers found</h3>
-                <p>Get started by adding your first customer</p>
-            </div>
-        </c:otherwise>
-    </c:choose>
+        <div class="customer-details">
+            <p><strong>Account Number:</strong> ${customer.accountNumber}</p>
+            <p><strong>Name:</strong> ${customer.customerName}</p>
+            <p><strong>Phone:</strong> ${customer.phoneNumber}</p>
+            <p><strong>Email:</strong> ${customer.email}</p>
+        </div>
+
+        <form action="customer" method="post">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="customerId" value="${customer.customerId}">
+
+            <button type="submit" class="btn btn-danger">Yes, Delete Customer</button>
+            <a href="customer" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 </div>
 
 <footer>
