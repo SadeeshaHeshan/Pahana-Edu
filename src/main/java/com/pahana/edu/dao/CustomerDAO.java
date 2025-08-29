@@ -26,7 +26,7 @@ public class CustomerDAO {
             stmt.setString(4, customer.getPhoneNumber());
             stmt.setString(5, customer.getEmail());
 
-            int rows = stmt.executeUpdate();
+            int rows = stmt.
             return rows > 0;
 
         } catch (SQLException e) {

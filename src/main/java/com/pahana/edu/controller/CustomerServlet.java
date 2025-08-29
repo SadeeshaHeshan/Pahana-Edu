@@ -38,7 +38,7 @@ public class CustomerServlet extends HttpServlet {
             return;
         }
 
-        String action = request.
+        String action = request.getParameter("action");
 
         if ("view".equals(action)) {
             // View specific customer
