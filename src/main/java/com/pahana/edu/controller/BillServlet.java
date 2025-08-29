@@ -26,7 +26,7 @@ public class BillServlet extends HttpServlet {
 
     private BillDAO billDAO;
     private CustomerDAO customerDAO;
-    private ItemDAO itemDAO;
+ 
 
     @Override
     public void init() throws ServletException {

@@ -39,7 +39,8 @@ public class BillDAO {
             billStmt.setString(7, bill.getPaymentMethod());
             billStmt.setString(8, bill.getPaymentStatus());
             billStmt.setInt(9, bill.getCreatedBy());
-            
+            billStmt.setString(10, bill.getNotes());
+
             int billRows = billStmt.executeUpdate();
 
             if (billRows == 0) {
