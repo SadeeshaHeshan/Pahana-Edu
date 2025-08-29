@@ -73,7 +73,7 @@ public class UserDAO {
         UserDAO userDAO = new UserDAO();
 
         // Test with sample data from your database
-        User user = userDAO.authenticateUser("admin", "admin123");
+        User user = userDAO.authenticateUser("admin1", "admin1234");
 
         if (user != null) {
             System.out.println(" User authentication successful!");
